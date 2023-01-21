@@ -11,13 +11,17 @@
 |
 */
 
-use App\Http\Controllers\ShopController;
+Route::get('/', 'ShopController@index');
 
-Route::get('/', function () {
-    return view('shop');
+Route::group(['middleware' => ['auth']], function () {
+    
+    Route::get('/mycart', 'ShopController@myCart');
+    Route::post('/mycart', 'ShopController@addMycart');
+    Route::post('/cartdelete', 'ShopController@deleteCart');
+    Route::post('/checkout', 'ShopController@checkout');
+
 });
 
+
+
 Auth::routes();
-Route::get('/', 'ShopController@index');
-Route::get('/mycart', 'ShopController@myCart')->middleware('auth');
-Route::post('/mycart', 'ShopController@addMycart');
